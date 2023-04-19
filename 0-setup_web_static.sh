@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+<<<<<<< HEAD
 # a Bash script that sets up your web servers for the deployment of web_static
 
 apt-get update
@@ -32,4 +33,42 @@ sed -i '51 i \\n\tlocation /hbnb_static {\n\talias /data/web_static/current;\n\t
 # /data/web_static/current/ to hbnb_static
 # (ex: https://mydomainname.tech/hbnb_static).
 # Dont forget to restart Nginx after updating the configuration:
+=======
+# Sets up a web server for deployment of web_static.
+
+apt-get update
+apt-get install -y nginx
+
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "Holberton School" > /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
+
+chown -R ubuntu /data/
+chgrp -R ubuntu /data/
+
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
+
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
+
+>>>>>>> 4c501d4f22acaa3fa758c7957ef0e0ec15597e8a
 service nginx restart
