@@ -1,1 +1,1 @@
-0x02. AirBnB clone - MySQL
+An ALX students' project
